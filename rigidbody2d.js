@@ -27,10 +27,6 @@ function _vecCross(a /*: Vector */, b /*: Vector */) /*: number */ {
 	return a.x * b.y - a.y * b.x;
 }
 
-//function _vecVectorCrossScalar(v /*: Vector */, s /*: number */) /*: Vector */ {
-//	return new Vector(s * v.y, -s * v.x);
-//}
-
 function _vecScalarCrossVector(s /*: number */, v /*: Vector */) /*: Vector */ {
 	return new Vector(-s * v.y, s * v.x);
 }
