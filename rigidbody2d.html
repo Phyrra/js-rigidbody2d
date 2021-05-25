@@ -1,0 +1,73 @@
+<html>
+	<head>
+		<script src="rigidbody2d.js"></script>
+	</head>
+	<body>
+		<div>
+			<canvas id="canvas" width="800" height="600"></canvas>
+		</div>
+		<div>
+			<br/>
+			<button id="clear">Clear</button>
+			<br/>
+			<label for="size">Size</label>
+			<input id="size" type="range" min="25" max="100" step="5" value="50" />
+			<span id="size_value">50</span>
+			<br/>
+			<label for="iterations">Collision iterations</label>
+			<input id="iterations" type="range" min="1" max="10" step="1" value="3" />
+			<span id="iterations_value">3</span>
+			<br/>
+			<label for="debug">Debug</label>
+			<input type="checkbox" id="debug" />
+		</div>
+		<div style="display: none">
+			<img src="crate.png" id="crate" />
+		</div>
+		<script>
+			const canvas = document.getElementById('canvas');
+			
+			function degToRad(deg) {
+				return deg * Math.PI / 180;
+			}
+			
+			const bodies /*: Body[] */ = [
+				new Body(10, 600).setPosition(new Vector(5, 300)),
+				new Body(10, 600).setPosition(new Vector(795, 300)),
+				new Body(800, 10).setPosition(new Vector(400, 5)),
+				new Body(800, 100).setPosition(new Vector(400, 640))
+			];
+			
+			const world = new World()
+				.setGravity(new Vector(0, 1))
+				.setBodies(bodies);
+			
+			const fps = 60;
+			const interval = setInterval(() => {
+				world.step();
+				world.render(canvas);
+			}, 1000 / fps);
+			
+			canvas.addEventListener('click', e => {
+				const size = document.getElementById('size').value;
+				const b = new Body(size, size)
+					.setPosition(new Vector(e.clientX, e.clientY))
+					.setMass(size)
+					.setSprite(document.getElementById('crate'));
+				world.addBody(b);
+			});
+			
+			document.getElementById('clear').addEventListener('click', e => world.setBodies(bodies));
+			document.getElementById('iterations').addEventListener('change', e => {
+				world.setCollisionIterations(e.target.value);
+				document.getElementById('iterations_value').innerHTML = e.target.value;
+			});
+			document.getElementById('size').addEventListener('change', e => {
+				document.getElementById('size_value').innerHTML = e.target.value;
+			});
+			document.getElementById('debug').addEventListener('change', e => {
+				world.setDebug(e.target.checked);
+			});
+		</script>
+	</body>
+</html>

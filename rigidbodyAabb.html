@@ -1,0 +1,30 @@
+<html>
+	<head>
+		<script src="rigidbodyAabb.js"></script>
+	</head>
+	<body>
+		<div>
+			<canvas id="canvas" width="800" height="600"></canvas>
+		</div>
+		<script>
+			const canvas = document.getElementById('canvas');
+			
+			const bodies /*: Body[] */ = [
+				new Body(10, 600).setPosition(new Vector(0, 0)),
+				new Body(10, 600).setPosition(new Vector(790, 0)),
+				new Body(800, 10).setPosition(new Vector(0, 0)),
+				new Body(800, 10).setPosition(new Vector(0, 590)),
+				new Body(50, 50)
+					.setMass(10)
+					.setPosition(new Vector(375, 275))
+					.setVelocity(new Vector(5, 5))
+			];
+			
+			const fps = 60;
+			const interval = setInterval(() => {
+				step(bodies);
+				render(canvas, bodies);
+			}, 1000 / fps);
+		</script>
+	</body>
+</html>
